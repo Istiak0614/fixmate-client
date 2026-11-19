@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { GlassCard } from "@/components/shared/glass-card";
+import { SectionHeading } from "@/components/shared/section-heading";
 
 type Health = { ok: boolean; db?: string; time?: string };
 
-// TEMPORARY page — replaced by the real Home page in Client step 9.
-// The request goes to OUR domain (/api/health) and Next.js forwards it to Express.
+// TEMPORARY page — a theme preview + server check. Replaced by the real Home page in Client step 9.
 export default function Home() {
   const [health, setHealth] = useState<Health | null>(null);
   const [loading, setLoading] = useState(false);
@@ -15,24 +18,50 @@ export default function Home() {
     setLoading(true);
     try {
       const res = await fetch("/api/health", { cache: "no-store" });
-      setHealth(await res.json());
+      const data: Health = await res.json();
+      setHealth(data);
+      if (data.ok) toast.success("Server and database are connected");
+      else toast.error("Server is up, but the database is not connected");
     } catch {
       setHealth({ ok: false });
+      toast.error("Could not reach the server");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
-      <h1 className="text-4xl font-bold">🔧 FixMate</h1>
-      <p className="text-muted-foreground">Smart Device &amp; Home Appliance Repair — coming soon</p>
-      <Button onClick={checkServer} disabled={loading}>
-        {loading ? "Checking..." : "Check server connection"}
-      </Button>
-      {health && (
-        <pre className="rounded-lg border p-4 text-left text-sm">{JSON.stringify(health, null, 2)}</pre>
-      )}
+    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-16">
+      <div className="mb-12 flex items-center justify-between">
+        <span className="font-display text-2xl font-bold">🔧 FixMate</span>
+        <ThemeToggle />
+      </div>
+
+      <SectionHeading
+        title="Broken device? Get it fixed by verified technicians"
+        subtitle="Theme preview: switch light/dark with the button above and check that every text stays easy to read."
+      />
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <GlassCard interactive>
+          <h3 className="text-xl font-semibold">Glass card</h3>
+          <p className="mt-2 text-muted-foreground">Frosted surface over the blueprint grid. Hover me.</p>
+        </GlassCard>
+        <GlassCard interactive>
+          <h3 className="text-xl font-semibold">Brand colours</h3>
+          <div className="mt-3 flex gap-2">
+            <span className="rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">Teal</span>
+            <span className="rounded-md bg-highlight px-3 py-1 text-sm font-semibold text-highlight-foreground">Amber</span>
+          </div>
+        </GlassCard>
+        <GlassCard>
+          <h3 className="text-xl font-semibold">Server check</h3>
+          <Button className="mt-3" onClick={checkServer} disabled={loading}>
+            {loading ? "Checking..." : "Check server connection"}
+          </Button>
+          {health && <pre className="mt-3 overflow-x-auto text-xs">{JSON.stringify(health, null, 2)}</pre>}
+        </GlassCard>
+      </div>
     </main>
   );
 }

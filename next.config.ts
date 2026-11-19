@@ -4,7 +4,8 @@ import type { NextConfig } from "next";
  * SERVER_URL = the Express server (no trailing slash), e.g. https://fixmate-server.vercel.app
  * Read at BUILD time, so it must be set in Vercel's env vars before deploying.
  */
-const SERVER_URL = process.env.SERVER_URL ?? "http://localhost:5000";
+// trim() + remove trailing slashes, so a copy-paste mistake in the env var can't break the proxy
+const SERVER_URL = (process.env.SERVER_URL ?? "http://localhost:5000").trim().replace(/\/+$/, "");
 
 const nextConfig: NextConfig = {
   // Tailwind CSS v4 via Turbopack (added by create-next-app — keep it).
