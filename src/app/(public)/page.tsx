@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { GlassCard } from "@/components/shared/glass-card";
 import { SectionHeading } from "@/components/shared/section-heading";
 
@@ -32,10 +31,6 @@ export default function Home() {
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-16">
-      <div className="mb-12 flex items-center justify-between">
-        <span className="font-display text-2xl font-bold">🔧 FixMate</span>
-        <ThemeToggle />
-      </div>
 
       <SectionHeading
         title="Broken device? Get it fixed by verified technicians"

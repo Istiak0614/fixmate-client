@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { Wrench } from "lucide-react";
 import { GlassCard } from "@/components/shared/glass-card";
 
 /**
@@ -42,13 +40,7 @@ const STEPS = [
 function RepairTicket() {
   return (
     <div className="hidden lg:block">
-      <Link href="/" className="inline-flex items-center gap-2 font-display text-2xl font-bold">
-        <span className="grid size-10 place-items-center rounded-xl bg-primary text-primary-foreground">
-          <Wrench className="size-5" />
-        </span>
-        FixMate
-      </Link>
-      <p className="mt-6 max-w-sm text-2xl font-semibold leading-snug">
+      <p className="max-w-sm text-2xl font-semibold leading-snug">
         Every repair is a ticket you can follow, from request to payment.
       </p>
 
