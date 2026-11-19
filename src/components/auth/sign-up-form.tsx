@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Check, Loader2, UserRound, Wrench, X } from "lucide-react";
+import { Check, Form, Loader2, UserRound, Wrench, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { FormField } from "@/components/auth/form-field";
 import { PasswordInput } from "@/components/auth/password-input";
 import { signUp } from "@/lib/auth-client";
 import { createJwtCookie } from "@/lib/jwt";
@@ -121,15 +122,15 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string | null }) {
         </div>
       </fieldset>
 
-      <Field id="name" label="Full name" error={errors.name}>
+      <FormField id="name" label="Full name" error={errors.name}>
         <Input id="name" autoComplete="name" placeholder="e.g. Nusrat Jahan" value={form.name} onChange={update("name")} aria-invalid={!!errors.name} className="h-11" />
-      </Field>
+      </FormField>
 
-      <Field id="email" label="Email" error={errors.email}>
+      <FormField id="email" label="Email" error={errors.email}>
         <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={update("email")} aria-invalid={!!errors.email} className="h-11" />
-      </Field>
+      </FormField>
 
-      <Field id="password" label="Password" error={errors.password}>
+      <FormField id="password" label="Password" error={errors.password}>
         <PasswordInput
           id="password"
           autoComplete="new-password"
@@ -159,7 +160,7 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string | null }) {
             );
           })}
         </ul>
-      </Field>
+      </FormField>
 
       <Button type="submit" size="lg" className="h-11 w-full text-base" disabled={loading}>
         {loading && <Loader2 className="size-4 animate-spin" />}
@@ -179,17 +180,3 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string | null }) {
   );
 }
 
-/** Label + input + error message under it. */
-function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      {children}
-      {error && (
-        <p role="alert" className="text-sm font-medium text-destructive">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
