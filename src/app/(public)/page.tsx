@@ -31,7 +31,6 @@ export default function Home() {
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-16">
-
       <SectionHeading
         title="Broken device? Get it fixed by verified technicians"
         subtitle="Theme preview: switch light/dark with the button above and check that every text stays easy to read."
