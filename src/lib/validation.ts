@@ -11,3 +11,12 @@ export const PASSWORD_RULES = [
 ] as const;
 
 export const isValidPassword = (value: string) => PASSWORD_RULES.every((rule) => rule.test(value));
+
+/** Same rule as the server: 01712345678, +880 1712-345678 ... */
+export const PHONE_REGEX = /^\+?[0-9][0-9\s-]{6,18}$/;
+
+/** Today's date as "YYYY-MM-DD" in the user's own time zone (for <input type="date" min=...>). */
+export function todayLocal(): string {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+}

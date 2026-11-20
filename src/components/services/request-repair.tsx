@@ -1,20 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Info, LogIn, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { RequestForm, type RequestFormUser } from "@/components/services/request-form";
 
-type Viewer = { role?: string | null } | null;
+type Viewer = (RequestFormUser & { role?: string | null }) | null;
 
 /**
  * Role-restricted Request Repair button (assignment rules):
  *   logged out          -> link to /sign-in, and back to this page after login
  *   technician / admin  -> disabled, with "Only customers can request a repair"
- *   customer            -> opens the request form (added in Client step 13)
+ *   customer            -> opens the request form in a modal
  */
-export function RequestRepair({ viewer }: { viewer: Viewer }) {
+export function RequestRepair({ viewer, service }: { viewer: Viewer; service: { _id: string; title: string } }) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   if (!viewer) {
     return (
@@ -40,8 +44,26 @@ export function RequestRepair({ viewer }: { viewer: Viewer }) {
   }
 
   return (
-    <Button size="lg" className="h-12 w-full text-base">
-      <Wrench className="size-5" /> Request Repair
-    </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size="lg" className="h-12 w-full text-base">
+          <Wrench className="size-5" /> Request Repair
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        className="max-h-[90dvh] overflow-y-auto bg-background sm:max-w-xl"
+        // start on the first field the customer actually fills in (Name/Email are read-only)
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          document.getElementById("req-phone")?.focus();
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle className="font-display text-2xl">Request a repair</DialogTitle>
+          <DialogDescription>{service.title}</DialogDescription>
+        </DialogHeader>
+        <RequestForm serviceId={service._id} user={viewer} onDone={() => setOpen(false)} />
+      </DialogContent>
+    </Dialog>
   );
 }
