@@ -1,5 +1,8 @@
 /**
+ * /**
  * Fetch from Express on the SERVER (server components): public data like services.
+ *   serverFetch -> data or null (lists: show a friendly "couldn't load" message)
+ *   serverGet   -> data + HTTP status (details: 404 -> Not Found page, other errors -> error page)
  * Calls SERVER_URL directly (server to server), so there is no extra hop through the rewrite.
  * Returns null on any error, so pages can show a friendly fallback instead of crashing.
  */
@@ -14,5 +17,15 @@ export async function serverFetch<T>(path: string): Promise<T | null> {
     return (await res.json()) as T;
   } catch {
     return null;
+  }
+}
+
+/** Like serverFetch, but tells you WHY it failed (status 0 = server unreachable). */
+export async function serverGet<T>(path: string): Promise<{ data: T | null; status: number }> {
+  try {
+    const res = await fetch(`${SERVER_URL}/api${path}`, { cache: "no-store" });
+    return { data: res.ok ? ((await res.json()) as T) : null, status: res.status };
+  } catch {
+    return { data: null, status: 0 };
   }
 }

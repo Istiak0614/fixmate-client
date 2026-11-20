@@ -12,20 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { initials } from "@/lib/format";
 import { ROLE_LABELS, dashboardPath, type Role } from "@/lib/roles";
 import { useSignOut } from "@/lib/use-sign-out";
 
 export type NavUser = { name: string; email: string; image?: string | null; role?: string | null };
-
-/** "Nusrat Jahan" -> "NJ" (shown when the user has no photo) */
-export function initials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]!.toUpperCase())
-    .join("");
-}
 
 /** Avatar button + dropdown: name, role badge, Dashboard, Update Profile, Sign Out. */
 export function UserMenu({ user }: { user: NavUser }) {
