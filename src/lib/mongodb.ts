@@ -14,6 +14,7 @@ import { MongoClient } from "mongodb";
 // that "mongodb+srv://" needs. Vercel's DNS works fine, so only do this locally.
 if (!process.env.VERCEL) {
   dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  console.log("🔧 Using Google/Cloudflare DNS for MongoDB");
 }
 
 const uri = process.env.MONGODB_URI;

@@ -26,3 +26,15 @@ export function PaymentBadge({ paid }: { paid: boolean }) {
     </span>
   );
 }
+
+/** Admin approval of a service: Pending (amber), Approved (green), Rejected (red). */
+export function ApprovalBadge({ status }: { status: "pending" | "approved" | "rejected" }) {
+  const styles = {
+    pending: "bg-amber-500/20 text-amber-800 dark:text-amber-300",
+    approved: "bg-green-500/15 text-green-700 dark:text-green-300",
+    rejected: "bg-red-500/15 text-red-700 dark:text-red-300",
+  };
+  return (
+    <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-bold whitespace-nowrap capitalize", styles[status])}>{status}</span>
+  );
+}
