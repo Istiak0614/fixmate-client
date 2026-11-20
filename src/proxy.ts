@@ -24,5 +24,5 @@ export async function proxy(request: NextRequest) {
 
 // Only run on pages that need it (never on images, CSS, JS or API routes)
 export const config = {
-  matcher: ["/dashboard", "/dashboard/:path*", "/sign-in", "/sign-up"],
+    matcher: ["/dashboard", "/dashboard/:path*", "/payment/:path*", "/sign-in", "/sign-up"],
 };

@@ -20,10 +20,11 @@ export function getRedirect(
 ): string | null {
   const isAuthPage = AUTH_PAGES.includes(pathname);
   const isDashboard = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  const isPaymentPage = pathname.startsWith("/payment/"); // /payment/success, /payment/cancel (customers only)
 
   // 1. Logged-out user on a private page -> Sign In, then come back here afterwards
   if (!user) {
-    if (isDashboard) return `/sign-in?callbackUrl=${encodeURIComponent(pathname + search)}`;
+    if (isDashboard || isPaymentPage) return `/sign-in?callbackUrl=${encodeURIComponent(pathname + search)}`;
     return null;
   }
 
@@ -34,6 +35,8 @@ export function getRedirect(
     const callbackUrl = safeCallbackUrl(new URLSearchParams(search).get("callbackUrl"));
     return callbackUrl ?? ownDashboard;
   }
+    // Payment result pages belong to customers only
+  if (isPaymentPage && user.role !== "customer") return ownDashboard;
 
   // 3. "/dashboard" itself -> the role's own dashboard
   if (pathname === "/dashboard") return ownDashboard;
