@@ -27,6 +27,24 @@ The seeded data includes approved services and bookings in every status, so ever
 - Payment history with a downloadable **PDF invoice**
 - **Rate & review** a paid job once; ratings show on cards and service pages
 
+## Screenshots
+
+| Home (light) | Home (dark) |
+|---|---|
+| ![Home page, light mode](docs/screenshots/home-light.png) | ![Home page, dark mode](docs/screenshots/home-dark.png) |
+
+| Services | Service details |
+|---|---|
+| ![Services with filters](docs/screenshots/services.png) | ![Service details with reviews](docs/screenshots/service-details.png) |
+
+| Customer bookings | Technician requests |
+|---|---|
+| ![Customer My Bookings](docs/screenshots/customer-bookings.png) | ![Technician Manage Requests](docs/screenshots/technician-requests.png) |
+
+| Admin overview | Mobile |
+|---|---|
+| ![Admin overview with revenue chart](docs/screenshots/admin-overview.png) | ![Mobile view](docs/screenshots/mobile.png) |
+
 **Technicians**
 - Add, edit, pause and delete services (image upload to ImgBB); edited services go back to admin review
 - Accept / reject requests and move jobs through the status pipeline; set the final amount on completion
