@@ -10,6 +10,7 @@ import {
   UserPen,
   Users,
   Wrench,
+  BadgeCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -27,6 +28,7 @@ export const ROLE_MENUS: Record<string, MenuItem[]> = {
     { href: "/dashboard/technician/add-service", label: "Add a Service", Icon: CirclePlus },
     { href: "/dashboard/technician/my-services", label: "My Services", Icon: Wrench },
     { href: "/dashboard/technician/requests", label: "Manage Requests", Icon: Inbox },
+    { href: "/dashboard/technician/plan", label: "Pro Plan", Icon: BadgeCheck },
   ],
   admin: [
     { href: "/dashboard/admin", label: "Overview", Icon: LayoutDashboard },

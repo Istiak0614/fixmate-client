@@ -10,6 +10,8 @@ import { formatPrice } from "@/lib/category-icons";
 import { serverGet } from "@/lib/server-api";
 import { getCurrentUser } from "@/lib/session";
 import type { ServiceDetails } from "@/lib/types";
+import { RatingSummary } from "@/components/reviews/stars";
+import { ServiceReviews } from "@/components/reviews/service-reviews";
 
 type PageProps = { params: Promise<{ id: string }> };
 
@@ -60,6 +62,7 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
             </h2>
             <p className="mt-4 text-lg leading-relaxed whitespace-pre-line text-muted-foreground">{service.description}</p>
           </section>
+          <ServiceReviews serviceId={service._id} average={service.ratingAverage} count={service.ratingCount} />
         </div>
 
         {/* Right: key info + request (sticky on desktop) */}
@@ -67,6 +70,7 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
           <div className="glass rounded-3xl p-6 sm:p-8">
             <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">{service.category}</span>
             <h1 className="mt-4 text-3xl leading-tight font-bold sm:text-4xl">{service.title}</h1>
+            <RatingSummary average={service.ratingAverage} count={service.ratingCount} className="mt-3" />
 
             <p className="mt-6">
               <span className="block text-sm text-muted-foreground">Starting price</span>

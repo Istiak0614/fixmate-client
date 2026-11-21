@@ -18,10 +18,14 @@ export type Service = {
   serviceArea: string;
   technicianName: string;
   technicianEmail: string;
+  technicianPlan?: "free" | "pro"; // "Verified Pro" badge
   approvalStatus: "pending" | "approved" | "rejected";
   isAvailable: boolean;
   createdAt: string;
+  ratingAverage?: number; // e.g. 4.7
+  ratingCount?: number;
 };
+export type Review = { _id: string; name: string; image: string | null; rating: number; review: string; reviewedAt: string };
 
 export type ServiceDetails = Service & {
   description: string;

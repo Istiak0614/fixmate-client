@@ -15,6 +15,11 @@ export function AddService({ technician }: { technician: { name: string; email: 
       toast.success("Service submitted", { description: "It is waiting for admin approval and will appear publicly once approved." });
       router.push("/dashboard/technician/my-services");
     } catch (err) {
+        if (err instanceof ApiError && err.status === 403 && err.message.includes("Free plan")) {
+        // Free plan limit (3 services): offer the upgrade
+        toast.error(err.message, { action: { label: "See Pro", onClick: () => router.push("/dashboard/technician/plan") } });
+        return;
+      }
       toast.error(err instanceof ApiError ? err.message : "Could not save the service. Please try again.");
     }
   }

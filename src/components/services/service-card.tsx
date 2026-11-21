@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ServiceImage } from "@/components/services/service-image";
 import { formatPrice } from "@/lib/category-icons";
 import type { Service } from "@/lib/types";
+import { ProBadge } from "@/components/shared/pro-badge";
+import { RatingSummary } from "@/components/reviews/stars";
 
 /**
  * The one service card used on Home and Services.
@@ -33,6 +35,7 @@ export function ServiceCard({ service, priority = false }: { service: Service; p
         </div>
 
         <h3 className="mt-3 line-clamp-2 min-h-[3.25rem] text-lg leading-snug font-semibold">{service.title}</h3>
+        <RatingSummary average={service.ratingAverage} count={service.ratingCount} className="mt-2" />
 
         <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
           <li className="flex items-center gap-2">
@@ -42,6 +45,7 @@ export function ServiceCard({ service, priority = false }: { service: Service; p
           <li className="flex items-center gap-2">
             <UserRound className="size-4 shrink-0" />
             <span className="truncate">{service.technicianName}</span>
+            {service.technicianPlan === "pro" && <ProBadge />}
           </li>
         </ul>
 

@@ -8,7 +8,7 @@
  *   through BetterAuth — only the Express admin API (and the Stripe webhook for plan) can.
  */
 import { betterAuth } from "better-auth";
-import { APIError, createAuthMiddleware } from "better-auth/api";
+import { APIError, createAuthMiddleware, getOAuthState } from "better-auth/api";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { client, db } from "./mongodb";
@@ -26,6 +26,11 @@ export const auth = betterAuth({
     minPasswordLength: 6,
     autoSignIn: true, // signed in right after sign up -> we can redirect to the dashboard
   },
+  // (optional feature) Google login — only turned on when both keys are set
+  socialProviders:
+  process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+    ? { google: { clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET } }
+    : {},
 
   // 7 days, the same lifetime as the Express JWT cookie
   session: {
@@ -64,7 +69,11 @@ export const auth = betterAuth({
       create: {
         // Runs for EVERY new user (email sign up and Google sign in)
         before: async (user) => {
-          const role = SIGN_UP_ROLES.includes(String(user.role)) ? user.role : "customer";
+        // Google sign up: the role picked on the sign-up page travels in the OAuth state
+        // (client-supplied, so it's checked against the same allow-list; no state -> customer)
+        const oauthState = await getOAuthState().catch(() => null);
+        const wanted = user.role ?? (oauthState as { role?: string } | null)?.role;
+        const role = SIGN_UP_ROLES.includes(String(wanted)) ? wanted : "customer";
           return { data: { ...user, role, plan: "free" } };
         },
       },

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Check, Form, Loader2, UserRound, Wrench, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GoogleButton, OrDivider } from "@/components/auth/google-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FormField } from "@/components/auth/form-field";
@@ -166,6 +167,9 @@ export function SignUpForm({ callbackUrl }: { callbackUrl: string | null }) {
         {loading && <Loader2 className="size-4 animate-spin" />}
         {loading ? "Creating your account..." : "Create account"}
       </Button>
+      {/* Google uses the role chosen above (customer or technician) */}
+      <OrDivider label="or" />
+      <GoogleButton callbackUrl={callbackUrl} role={role} />
 
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}

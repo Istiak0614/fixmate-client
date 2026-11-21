@@ -16,6 +16,8 @@ import { formatDate } from "@/lib/format";
 import type { Booking } from "@/lib/types";
 import { useApi } from "@/lib/use-api";
 import { cn } from "@/lib/utils";
+import { ReviewDialog } from "@/components/reviews/review-dialog";
+import { Stars } from "@/components/reviews/stars";
 
 export function MyBookings() {
   const { data: bookings, loading, error, reload } = useApi<Booking[]>("/bookings/my");
@@ -79,6 +81,14 @@ export function MyBookings() {
           Pay {formatPrice(b.finalAmount)}
         </Button>
       )}
+      {b.paymentStatus === "paid" && !b.rating && (
+        <ReviewDialog bookingId={b._id} serviceTitle={b.serviceTitle} onDone={reload} />
+    )}
+    {b.rating && (
+      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" title={b.review}>
+        <Stars value={b.rating} /> Reviewed
+      </span>
+    )}
       <Button
         size="sm"
         variant="ghost"

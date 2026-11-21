@@ -1,4 +1,5 @@
-import { BadgeCheck, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { ProBadge } from "@/components/shared/pro-badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { initials } from "@/lib/format";
 import type { ServiceDetails } from "@/lib/types";
@@ -20,7 +21,7 @@ export function TechnicianSummary({ technician }: { technician: ServiceDetails["
             {technician.name}
             {technician.plan === "pro" && (
               <span className="inline-flex items-center gap-1 rounded-full bg-highlight px-2 py-0.5 text-xs font-bold text-highlight-foreground">
-                <BadgeCheck className="size-3.5" /> Verified Pro
+                {technician.plan === "pro" && <ProBadge />}
               </span>
             )}
           </p>

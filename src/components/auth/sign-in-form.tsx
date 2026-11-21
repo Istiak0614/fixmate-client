@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GoogleButton, OrDivider } from "@/components/auth/google-button";
 import { Input } from "@/components/ui/input";
 import { FormField } from "@/components/auth/form-field";
 import { PasswordInput } from "@/components/auth/password-input";
@@ -67,6 +68,8 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string | null }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
+      <GoogleButton callbackUrl={callbackUrl} />
+      <OrDivider />
       <FormField id="email" label="Email" error={errors.email}>
         <Input
           id="email"
