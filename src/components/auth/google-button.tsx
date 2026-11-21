@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
+import Image from "next/image";
 
 /**
  * "Continue with Google" (optional feature). Google sends the user back to /auth/callback,
@@ -29,9 +30,13 @@ export function GoogleButton({ callbackUrl, role }: { callbackUrl: string | null
     }
   }
 
-  return (
-    <Button type="button" variant="outline" size="lg" className="glass h-11 w-full text-base" onClick={handleClick} disabled={loading}>
-      {loading && <Loader2 className="size-4 animate-spin" />}
+   return (
+    <Button type="button" variant="outline" size="lg" className="glass h-11 w-full gap-3 text-base" onClick={handleClick} disabled={loading}>
+      {loading ? (
+        <Loader2 className="size-4 animate-spin" />
+      ) : (
+        <Image src="/google-g.svg" alt="" width={18} height={18} aria-hidden />
+      )}
       Continue with Google
     </Button>
   );
