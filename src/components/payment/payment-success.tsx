@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { api, ApiError } from "@/lib/api";
 import { formatPrice } from "@/lib/category-icons";
 import { formatDateTime } from "@/lib/format";
+import { InvoiceButton } from "@/components/payment/invoice-button";
 
 type VerifyResult = { paymentId: string; amount: number; transactionId: string; serviceTitle: string; paidAt: string };
 
@@ -64,6 +65,9 @@ export function PaymentSuccess({ sessionId }: { sessionId: string | null }) {
         <Row label="Transaction ID" value={<span className="break-all">{result.transactionId}</span>} />
         <Row label="Paid on" value={formatDateTime(result.paidAt)} />
       </dl>
+      <div className="mt-4 flex justify-center">
+      <InvoiceButton paymentId={result.paymentId} variant="ghost" />
+      </div>
       <Actions />
     </Shell>
   );

@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/category-icons";
 import { formatDateTime } from "@/lib/format";
 import type { Payment } from "@/lib/types";
 import { useApi } from "@/lib/use-api";
+import { InvoiceButton } from "@/components/payment/invoice-button";
 
 export function PaymentHistory() {
   const { data: payments, loading, error, reload } = useApi<Payment[]>("/payments/my");
@@ -40,6 +41,7 @@ export function PaymentHistory() {
               <th className="p-4 font-medium">Amount</th>
               <th className="p-4 font-medium">Transaction ID</th>
               <th className="p-4 font-medium">Paid on</th>
+              <th className="p-4 font-medium"><span className="sr-only">Invoice</span></th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +52,7 @@ export function PaymentHistory() {
                 <td className="p-4 font-semibold whitespace-nowrap">{formatPrice(p.amount)}</td>
                 <td className="max-w-56 truncate p-4 text-muted-foreground" title={p.transactionId}>{p.transactionId}</td>
                 <td className="p-4 whitespace-nowrap">{formatDateTime(p.paidAt)}</td>
+                <td className="p-4 text-right"><InvoiceButton paymentId={p._id} /></td>
               </tr>
             ))}
           </tbody>
@@ -67,7 +70,10 @@ export function PaymentHistory() {
               <span className="font-display text-lg font-bold">{formatPrice(p.amount)}</span>
             </div>
             <p className="mt-2 truncate text-xs text-muted-foreground">{p.transactionId}</p>
+            <div className="mt-1 flex items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">{formatDateTime(p.paidAt)}</p>
+              <InvoiceButton paymentId={p._id} />
+           </div>
           </li>
         ))}
       </ul>
